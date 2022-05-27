@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lyz.mapper.UserMapper">
+    <select id="login" resultType="User">
+        select *
+        from lbsm.user
+        <where>
+            user.username = #{username}
+                    and user.password = #{password}
+        </where>
+    </select>
+
+    <update id="changeIsUpload">
+        update lbsm.user
+        set is_upload=1
+        <where>
+            id = #{id}
+        </where>
+    </update>
+
+    <insert id="registerNewUser">
+        insert into lbsm.user (name, class_id, username, password, email)
+        values (#{name}, #{class}, #{username}, #{password}, #{email});
+    </insert>
+
+    <select id="getUserByUsername" resultType="User">
+        select *
+        from lbsm.user
+        <where>
+            username = #{username}
+        </where>;
+    </select>
+
+    <select id="getUserByClassId" resultType="User">
+        select *
+        from lbsm.user
+        <where>
+            class_id = #{classId}
+        </where>;
+    </select>
+
+    <select id="getUserByUserName_RealName_Email" resultType="User">
+        select *
+        from lbsm.user
+        <where>
+            username = #{username}
+                    and name = #{name}
+                    and email = #{email}
+        </where>;
+    </select>
+
+    <update id="changePassword">
+        update lbsm.user
+        set password = #{password}
+        where id = #{id};
+    </update>
+
+    <update id="changeUserEmail">
+        update lbsm.user
+        set email =#{email}
+        where id = #{id};
+    </update>
+</mapper>

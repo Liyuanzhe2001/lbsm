@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lyz.mapper.ClassMapper">
+    <select id="getClassByClassId" resultType="string">
+        select lbsm.class.name
+        from lbsm.class
+        <where>
+            lbsm.class.id = #{id}
+        </where>
+    </select>
+
+    <select id="getClassByName" resultType="Class">
+        select *
+        from lbsm.class
+        <where>
+            name = #{name}
+        </where>;
+    </select>
+
+    <select id="getClassIdByClassName" resultType="int">
+        select lbsm.class.id
+        from lbsm.class
+        <where>
+            name = #{name}
+        </where>;
+    </select>
+
+    <select id="getNumberOfPeople" resultType="java.lang.Integer">
+        select lbsm.class.number_of_people
+        from lbsm.class
+        <where>
+            lbsm.class.name = #{className}
+        </where>
+    </select>
+
+    <update id="addNumberOfPeople">
+        update lbsm.class
+        set lbsm.class.number_of_people =lbsm.class.number_of_people + 1
+        <where>
+            lbsm.class.id = #{classId}
+        </where>
+    </update>
+
+    <select id="getClassById" resultType="com.lyz.pojo.Class">
+        select *
+        from lbsm.class
+        <where>
+            lbsm.class.id = #{id}
+        </where>
+    </select>
+</mapper>

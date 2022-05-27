@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lyz.mapper.InformationMapper">
+    <insert id="insertStudentsInformation">
+        insert into lbsm.information values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (null, #{item.number}, #{item.name}, #{item.idNumber}, #{item.studentId}, #{item.className}, #{item.grade},
+             #{item.loveThePartyAndLoveTheCountry}, #{item.schoolDisciplineAndRules}, #{item.publicBenefitActivities},
+             #{item.teachingAchievement}, #{item.youthLearning},
+             #{item.governmentEnterprisePractice}, #{item.militaryLearning}, #{item.personalHonor},
+             #{item.recreationalActivities},
+             #{item.selfManagement}, #{item.innovationAndEntrepreneurship}, #{item.continuingEducation},
+             #{item.timeManagement},
+             #{item.lifelongLearning}, #{item.studentOrganization}, #{item.loveSchool}, #{item.internationalSkills},
+             #{item.studyAbroad}, #{item.internationalEvents}, #{item.advancedCertificate}, #{item.getDriverLicense},
+             #{item.professionalCertificate}, #{item.technicalSkills},
+             #{item.totalScore}, #{item.classRanking}, #{item.average}, #{item.instructor}, #{item.monitor},
+             #{item.leagueBranchSecretary},
+             #{item.numberOfPeople}, #{item.branch})
+        </foreach>
+    </insert>
+
+    <select id="getPageClassInformation" resultType="com.lyz.pojo.Information">
+        SELECT t.*, @rank := @rank + 1 AS classRanking
+        FROM (SELECT @rank := 10 * (#{page} - 1)) r,
+             (
+                 SELECT lbsm.information.id,
+                        lbsm.information.number,
+                        lbsm.information.`name`,
+                        lbsm.information.id_number,
+                        lbsm.information.student_id,
+                        lbsm.information.class_name,
+                        lbsm.information.grade,
+                        lbsm.information.love_the_party_and_love_the_country,
+                        lbsm.information.school_discipline_and_rules,
+                        lbsm.information.public_benefit_activities,
+                        lbsm.information.teaching_achievement,
+                        lbsm.information.youth_learning,
+                        lbsm.information.government_enterprise_practice,
+                        lbsm.information.military_learning,
+                        lbsm.information.personal_honor,
+                        lbsm.information.recreational_activities,
+                        lbsm.information.self_management,
+                        lbsm.information.innovation_and_entrepreneurship,
+                        lbsm.information.continuing_education,
+                        lbsm.information.time_management,
+                        lbsm.information.lifelong_learning,
+                        lbsm.information.student_organization,
+                        lbsm.information.loveSchool,
+                        lbsm.information.internationalSkills,
+                        lbsm.information.studyAbroad,
+                        lbsm.information.internationalEvents,
+                        lbsm.information.advancedCertificate,
+                        lbsm.information.getDriverLicense,
+                        lbsm.information.professionalCertificate,
+                        lbsm.information.technicalSkills,
+                        lbsm.information.totalScore,
+                        lbsm.information.average,
+                        lbsm.information.instructor,
+                        lbsm.information.monitor,
+                        lbsm.information.leagueBranchSecretary,
+                        lbsm.information.numberOfPeople,
+                        lbsm.information.branch
+                 FROM lbsm.information
+                 WHERE class_name = #{className}
+                 ORDER BY totalScore DESC)
+                 as t
+    </select>
+
+    <select id="getInformationByName" resultType="com.lyz.pojo.Information">
+        select *
+        from (SELECT t.*, @rank := @rank + 1 AS classRanking
+              FROM (SELECT @rank := 0) r,
+                   (
+                       SELECT lbsm.information.id,
+                              lbsm.information.number,
+                              lbsm.information.`name`,
+                              lbsm.information.id_number,
+                              lbsm.information.student_id,
+                              lbsm.information.class_name,
+                              lbsm.information.grade,
+                              lbsm.information.love_the_party_and_love_the_country,
+                              lbsm.information.school_discipline_and_rules,
+                              lbsm.information.public_benefit_activities,
+                              lbsm.information.teaching_achievement,
+                              lbsm.information.youth_learning,
+                              lbsm.information.government_enterprise_practice,
+                              lbsm.information.military_learning,
+                              lbsm.information.personal_honor,
+                              lbsm.information.recreational_activities,
+                              lbsm.information.self_management,
+                              lbsm.information.innovation_and_entrepreneurship,
+                              lbsm.information.continuing_education,
+                              lbsm.information.time_management,
+                              lbsm.information.lifelong_learning,
+                              lbsm.information.student_organization,
+                              lbsm.information.loveSchool,
+                              lbsm.information.internationalSkills,
+                              lbsm.information.studyAbroad,
+                              lbsm.information.internationalEvents,
+                              lbsm.information.advancedCertificate,
+                              lbsm.information.getDriverLicense,
+                              lbsm.information.professionalCertificate,
+                              lbsm.information.technicalSkills,
+                              lbsm.information.totalScore,
+                              lbsm.information.average,
+                              lbsm.information.instructor,
+                              lbsm.information.monitor,
+                              lbsm.information.leagueBranchSecretary,
+                              lbsm.information.numberOfPeople,
+                              lbsm.information.branch
+                       FROM lbsm.information
+                       WHERE class_name = #{className}
+                       ORDER BY totalScore DESC)
+                       as t) as l
+        where name = #{name}
+    </select>
+
+    <select id="getInformationById" resultType="com.lyz.pojo.Information">
+        select *
+        from (SELECT t.*, @rank := @rank + 1 AS classRanking
+              FROM (SELECT @rank := 0) r,
+                   (
+                       SELECT lbsm.information.id,
+                              lbsm.information.number,
+                              lbsm.information.`name`,
+                              lbsm.information.id_number,
+                              lbsm.information.student_id,
+                              lbsm.information.class_name,
+                              lbsm.information.grade,
+                              lbsm.information.love_the_party_and_love_the_country,
+                              lbsm.information.school_discipline_and_rules,
+                              lbsm.information.public_benefit_activities,
+                              lbsm.information.teaching_achievement,
+                              lbsm.information.youth_learning,
+                              lbsm.information.government_enterprise_practice,
+                              lbsm.information.military_learning,
+                              lbsm.information.personal_honor,
+                              lbsm.information.recreational_activities,
+                              lbsm.information.self_management,
+                              lbsm.information.innovation_and_entrepreneurship,
+                              lbsm.information.continuing_education,
+                              lbsm.information.time_management,
+                              lbsm.information.lifelong_learning,
+                              lbsm.information.student_organization,
+                              lbsm.information.loveSchool,
+                              lbsm.information.internationalSkills,
+                              lbsm.information.studyAbroad,
+                              lbsm.information.internationalEvents,
+                              lbsm.information.advancedCertificate,
+                              lbsm.information.getDriverLicense,
+                              lbsm.information.professionalCertificate,
+                              lbsm.information.technicalSkills,
+                              lbsm.information.totalScore,
+                              lbsm.information.average,
+                              lbsm.information.instructor,
+                              lbsm.information.monitor,
+                              lbsm.information.leagueBranchSecretary,
+                              lbsm.information.numberOfPeople,
+                              lbsm.information.branch
+                       FROM lbsm.information
+                       WHERE class_name = #{className}
+                       ORDER BY totalScore DESC)
+                       as t) as l
+        where student_id = #{studentId}
+    </select>
+
+    <insert id="addNewStudentInformation">
+        insert into lbsm.information(number, name, id_number, student_id, class_name, grade, classRanking, instructor,
+                                     monitor,
+                                     leagueBranchSecretary, numberOfPeople, branch)
+        values (#{number}, #{name}, #{idNumber}, #{studentId}, #{className}, #{grade}, #{classRanking}, #{instructor},
+                #{monitor},
+                #{leagueBranchSecretary}, #{numberOfPeople}, #{branch});
+    </insert>
+
+    <select id="getAllClassInformation" resultType="com.lyz.pojo.Information">
+        select *
+        from lbsm.information
+        <where>
+            lbsm.information.class_name = #{className}
+        </where>
+    </select>
+
+    <select id="getStudentRanking" resultType="java.lang.Integer">
+        select count(*)
+        from lbsm.information
+        where class_name = #{class}
+          and totalScore > (select totalScore from information where name = #{student_name})
+    </select>
+
+    <select id="getClassAllInformation" resultType="com.lyz.pojo.Information">
+        select *
+        from lbsm.information
+        <where>
+            lbsm.information.class_name = #{className}
+        </where>
+    </select>
+
+    <update id="changeStudentScore">
+        update lbsm.information
+        <set>
+            <if test="loveThePartyAndLoveTheCountry != null">
+                love_the_party_and_love_the_country = #{loveThePartyAndLoveTheCountry},
+            </if>
+            <if test="schoolDisciplineAndRules != null">
+                school_discipline_and_rules = #{schoolDisciplineAndRules},
+            </if>
+            <if test="publicBenefitActivities != null">
+                public_benefit_activities = #{publicBenefitActivities},
+            </if>
+            <if test="teachingAchievement != null">
+                teaching_achievement = #{teachingAchievement},
+            </if>
+            <if test="youthLearning != null">
+                youth_learning = #{youthLearning},
+            </if>
+            <if test="governmentEnterprisePractice != null">
+                government_enterprise_practice = #{governmentEnterprisePractice},
+            </if>
+            <if test="militaryLearning != null">
+                military_learning = #{militaryLearning},
+            </if>
+            <if test="personalHonor != null">
+                personal_honor = #{personalHonor},
+            </if>
+            <if test="recreationalActivities != null">
+                recreational_activities = #{recreationalActivities},
+            </if>
+            <if test="selfManagement != null">
+                self_management = #{selfManagement},
+            </if>
+            <if test="innovationAndEntrepreneurship != null">
+                innovation_and_entrepreneurship = #{innovationAndEntrepreneurship},
+            </if>
+            <if test="continuingEducation != null">
+                continuing_education = #{continuingEducation},
+            </if>
+            <if test="timeManagement != null">
+                time_management = #{timeManagement},
+            </if>
+            <if test="lifelongLearning != null">
+                lifelong_learning = #{lifelongLearning},
+            </if>
+            <if test="studentOrganization != null">
+                student_organization = #{studentOrganization},
+            </if>
+            <if test="loveSchool != null">
+                loveSchool = #{loveSchool},
+            </if>
+            <if test="internationalSkills != null">
+                internationalSkills = #{internationalSkills},
+            </if>
+            <if test="studyAbroad != null">
+                studyAbroad = #{studyAbroad},
+            </if>
+            <if test="internationalEvents != null">
+                internationalEvents = #{internationalEvents},
+            </if>
+            <if test="advancedCertificate != null">
+                advancedCertificate = #{advancedCertificate},
+            </if>
+            <if test="getDriverLicense != null">
+                getDriverLicense = #{getDriverLicense},
+            </if>
+            <if test="professionalCertificate != null">
+                professionalCertificate = #{professionalCertificate},
+            </if>
+            <if test="technicalSkills != null">
+                technicalSkills = #{technicalSkills},
+            </if>
+        </set>
+        <where>
+            name = #{student_name}
+              and class_name = #{class_name}
+        </where>
+    </update>
+
+    <update id="updateStudentTotalScore">
+        UPDATE lbsm.information
+        SET lbsm.information.totalScore=
+                    information.love_the_party_and_love_the_country +
+                    information.school_discipline_and_rules +
+                    information.public_benefit_activities +
+                    information.teaching_achievement +
+                    information.youth_learning +
+                    information.government_enterprise_practice +
+                    information.military_learning +
+                    information.personal_honor +
+                    information.recreational_activities +
+                    information.self_management +
+                    information.innovation_and_entrepreneurship +
+                    information.continuing_education +
+                    information.time_management +
+                    information.lifelong_learning +
+                    information.student_organization +
+                    information.loveSchool +
+                    information.internationalSkills +
+                    information.studyAbroad +
+                    information.internationalEvents +
+                    information.advancedCertificate +
+                    information.getDriverLicense +
+                    information.professionalCertificate +
+                    information.technicalSkills
+        <where>
+            name = #{student_name}
+              and class_name = #{class_name}
+        </where>
+    </update>
+
+    <update id="addOneRank">
+        update lbsm.information
+        set information.classRanking = information.classRanking + 1
+        where information.name = #{student_name}
+          and information.class_name = #{class_name}
+    </update>
+
+    <update id="cutOneRank">
+        update lbsm.information
+        set information.classRanking = information.classRanking - 1
+        where information.name = #{student_name}
+          and information.class_name = #{class_name}
+    </update>
+
+    <delete id="deleteAllInformation">
+        delete
+        from lbsm.information
+        where class_name = #{class_name}
+    </delete>
+
+    <update id="changeAverage">
+        UPDATE lbsm.information
+        SET average=
+                (
+                    SELECT a.a
+                    FROM (
+                             SELECT ROUND(AVG(totalScore), 0) a
+                             FROM lbsm.information
+                             WHERE class_name = #{class_name}
+                         ) AS a
+                )
+
+        WHERE class_name = #{class_name}
+    </update>
+
+    <update id="changeNumberOfPeople">
+        update lbsm.information
+        set numberOfPeople = numberOfPeople + 1
+        where class_name = #{class_name}
+    </update>
+
+    <update id="changeStudentInfo">
+        update lbsm.information
+        <set>
+            <if test="studentId != null">
+                student_id=#{studentId},
+            </if>
+            <if test="idNumber != null">
+                id_number = #{idNumber}
+            </if>
+        </set>
+        <where>
+            class_name = #{className}
+              and name = #{studentName}
+        </where>
+    </update>
+</mapper>
